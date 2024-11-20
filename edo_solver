@@ -37,3 +37,23 @@ s[0] = s0
 
 for i in range(0, len(t) - 1):
     s[i + 1] = s[i] + h*f(t[i], s[i])
+
+
+
+
+
+
+or lesson's method 
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+def euler(derivatives, x, y, x_stop, h):
+X = [x]
+Y = [y]
+while x < x_stop:
+y = y + h * derivatives(x,y)
+x = x + h
+X.append(x)
+Y.append(y)
+return np.array(X), np.array(Y)
