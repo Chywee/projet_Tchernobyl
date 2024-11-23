@@ -61,7 +61,7 @@ def run_simugrandX():
     return times, Xs
 
 def plot_simuI(times, Is):
-    """Generate plot from the simulation"""
+    #"""Generate plot from the simulation"""
     plt.plot(times, Is[:, 0], label="I")
     
     plt.legend()
@@ -69,7 +69,7 @@ def plot_simuI(times, Is):
     plt.show()
 
 def plot_simugrandX(times, Xs):
-    """Generate plot from the simulation"""
+    #"""Generate plot from the simulation"""
     plt.plot(times, Xs[:, 0], label="X")
     
     plt.legend()
