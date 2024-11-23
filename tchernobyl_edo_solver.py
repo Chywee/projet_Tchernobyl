@@ -17,7 +17,7 @@ sigma_x = 2.65*10 ** (-18)
 maj_sigma_f = 0.0984
 maj_sigma_u = 0.1355
 psi_de_t = 3*10 ** (13)
-end_time = 178200
+end_time = 172800
 def maj_sigma_x (sigma_x,grandX):
     return sigma_x*grandX
 #euler
