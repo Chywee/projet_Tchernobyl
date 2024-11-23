@@ -57,3 +57,24 @@ x = x + h
 X.append(x)
 Y.append(y)
 return np.array(X), np.array(Y)
+
+
+
+
+
+
+
+w/ explication 
+
+#my version of edo solver
+import numpy as np
+import matplotlib
+def euler (dérivé , x, y, h, x_stop) #imput ici les variable du systeme et dérivé décris la dérivé de la fct
+    X = [x]
+    Y = [y]
+    while x < x_stop #condition
+        y = y + h*(dérivé(x,y))
+        X.append(x)
+        Y.append(y)
+    return np.array(X) , np.array(Y)
+#definir mtn la fct du type f(x,v) ou f(v,a)
