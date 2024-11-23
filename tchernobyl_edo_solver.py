@@ -10,14 +10,14 @@ from scipy.integrate import solve_ivp
 #definition des constente
 gamma_i = 0.064
 gamma_x = 0.004
-lambda_i = 2.926*10^-5
-lambda_x = 2.0996*10^-5
-sigma_i = 7*10^-24
-sigma_x = 2.65*10^-18
+lambda_i = 2.926*10 ** (-5)
+lambda_x = 2.0996*10 ** (-5)
+sigma_i = 7*10 ** (-24)
+sigma_x = 2.65*10 ** (-18)
 maj_sigma_f = 0.0984
 maj_sigma_u = 0.1355
-psi_de_t = float(input("quel est la valeur du flux?  "))
-end_time = int(input("après combien de temps"))
+psi_de_t = 3*10 ** (13)
+end_time = 178200
 def maj_sigma_x (sigma_x,grandX):
     return sigma_x*grandX
 #euler
@@ -40,11 +40,11 @@ def dérivé_X(X, I, t):
 def run_simuI():
     #"""Run simulation and output times and I"""
     start_time = 0
-    I0 = 
+    I0 = 0
     step = 3600
 
     times, I = euler(dérivé_I, start_time, I0 , end_time, step)
-    Is = I[:, [0, 5, 10]]
+    Is = I[]
 
 
     return times, Is
@@ -52,11 +52,11 @@ def run_simuI():
 def run_simuX():
     #"""Run simulation and output times and I"""
     start_time = 0
-    X0 = 
+    X0 = 0
     step = 3600
 
     times, X = euler(dérivé_X, start_time, X0 , end_time, step)
-    Xs = X[:, [0, 5, 10]]
+    Xs = X[]
 
 
     return times, Xs
@@ -84,4 +84,3 @@ if __name__ == "__main__":
     outX = run_simuX()
     plot_simuX(*outX)
     plot_simuI(*outI)
-    
