@@ -1,3 +1,11 @@
+
+
+from math import sqrt
+
+import matplotlib
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
 #definition des constente
 gamma_i = 0.064
 gamma_x = 0.004
