@@ -33,7 +33,7 @@ def euler_coupled(derivatives, t0, y0, t_end, dt):
 def derivatives(t, y):
     I, grandX = y  
     dI_dt = gamma_i * maj_sigma_f * psi_de_t - lambda_i * I - sigma_i * I * psi_de_t
-    dX_dt = gamma_x * maj_sigma_f * psi_de_t - lambda_x * grandX - sigma_x * grandX * psi_de_t
+    dX_dt = gamma_x * maj_sigma_f * psi_de_t + lambda_i * I - lambda_x * grandX - sigma_x * grandX * psi_de_t
     return [dI_dt, dX_dt]
 
 # Simulation
