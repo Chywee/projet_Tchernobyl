@@ -1,4 +1,6 @@
 #hard beepboop of mozerfoking maphys bb ;)
+
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -12,12 +14,13 @@ sigma_i = 7e-24
 sigma_x = 2.65e-18
 maj_sigma_f = 0.0984
 maj_sigma_u = 0.1355
-end_time = 129600  # Durée de la simulation (secondes)
+end_time= 115200 + 86400 + 259200 # Durée de la simulation (secondes)
 sigma_b_min = 0.1  # Barres complètement relevées
 sigma_b_max = 0.2  # Barres complètement enfoncées
-flux_target = 1e15  # Flux cible (particules/s)
+flux_target2= 1e15/100 #nouveau flux cible 24h apres stab 
+flux_target1= 1e15  # Flux cible (particules/s)
 flux_initial = 1e10  # Flux initial (particules/s)
-k = 100
+
 
 
 
@@ -41,21 +44,30 @@ def euler_coupled(derivatives, t0, y0, t_end, dt):
     return np.array(times), np.array(values), np.array(sigma_b_values)
 
 
-# Système d'équations différentielles
+
 def derivatives(t, y, sigma_b):
     I, grandX, psi_de_t = y
 
+    # Calcul de l'erreur en fonction du temps
+    if t < 115200 + 86400:
+        err = flux_target1 - psi_de_t
+    else:
+        err = flux_target2 - psi_de_t
 
-    #calcul des erreurs pour ajuster les bars de carbone pour stabiliser le flux a 1e15
+    # Ajustement de sigma_b pour minimiser l'erreur
+    if t < 115200 + 86400:
+   
+        if (err/3e15+ 0.068) > 0.1:
+            sigma_b = 0.1 
+        else :
+         sigma_b =  0.2 - (err/3e15 + 0.068)
+    else:
+        if (err/3e15+ 0.068) > 0.1:
+            sigma_b = 0.1 
+        else :
+         sigma_b =  0.2 - (err/3e15 + 0.068)
+    sigma_b = max(0.1, min(0.2, sigma_b))  # Contrainte : sigma_b ∈ [0.1, 0.2]
 
-    err = flux_target - psi_de_t 
-    
-    if (err/3e15+ 0.066) > 0.1:
-        sigma_b = 0.1 
-    else :
-        sigma_b =  0.2 - err/3e15 - 0.066
-    
-    
     # Calcul de Σx
     maj_sigma_x = sigma_x * grandX
 
@@ -65,13 +77,15 @@ def derivatives(t, y, sigma_b):
     dpsi_dt = (psi_de_t / 1000) * 3 * (maj_sigma_u - sigma_b - maj_sigma_x)
 
     return [dI_dt, dX_dt, dpsi_dt], sigma_b
+                     
+
 
 
 # Simulation
 def run_simulation():
     t0 = 0
     y0 = [0, 0, flux_initial]  # Conditions initiales : I = 0, X = 0, flux initial
-    dt = 900  # Pas de temps (15 minutes)
+    dt = 60 
 
     # Appel de la simulation
     times, results, sigma_b_values = euler_coupled(derivatives, t0, y0, end_time, dt)
@@ -97,7 +111,8 @@ def plot_results(times, Is, Xs, Psis, sigma_bs):
     # Graphique 2 : Flux neutronique
     plt.subplot(3, 1, 2)
     plt.plot(times_hours, Psis, label="Flux neutronique (ψ)", color='orange')
-    plt.axhline(flux_target, color='red', linestyle='--', label="Flux cible")
+    plt.axhline(flux_target1, color='red', linestyle='--', label="Flux cible 1")
+    plt.axhline(flux_target2, color='red', linestyle='--', label="Flux cible 2")
     plt.xlabel("Temps (heures)")
     plt.ylabel("Flux neutronique (ψ)")
     plt.title("Évolution du flux neutronique")
@@ -112,7 +127,6 @@ def plot_results(times, Is, Xs, Psis, sigma_bs):
     plt.title("Évolution de la position des barres de contrôle")
     plt.legend()
     plt.grid()
-
     plt.tight_layout()
     plt.show()
 
